@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
-
+import "./index.scss"
 const Navbar = () => {
   return (
-    <>
-    <Link to="/">Home</Link>
-    <Link to="/login">Login</Link>
-    <Link to="/register">Register</Link>
-    </>
+    <nav>
+    <Link className="link" to="/">Home</Link>
+    <Link className="link" to="/login">Login</Link>
+    <Link className="link" to="/register">Register</Link>
+    </nav>
   )
 }
 

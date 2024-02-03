@@ -1,7 +1,11 @@
 
+import "./index.scss"
+
 const Home = () => {
   return (
-    <div>Home</div>
+    <div>
+      Home
+      </div>
   )
 }
 

@@ -1,10 +1,10 @@
-import './App.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import './App.scss';
 import MainLayout from './layout/MainLayout';
 import Home from './pages/Home';
+import Login from './pages/Login';
 import NoPage from './pages/NoPage';
 import Register from './pages/Register';
-import Login from './pages/Login';
 
 function App() {
 
