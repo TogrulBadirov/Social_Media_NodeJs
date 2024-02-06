@@ -1,11 +1,23 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import "./index.scss"
 const Navbar = () => {
   return (
     <nav>
-    <Link className="link" to="/">Home</Link>
-    <Link className="link" to="/login">Login</Link>
-    <Link className="link" to="/register">Register</Link>
+    <div id="desktop-nav">
+      <h3>MY LOGO</h3>
+    <ul>
+    <li><NavLink className="link" to="/">Home</NavLink></li>
+    <li><NavLink className="link" to="/login">Login</NavLink></li>
+    <li><NavLink className="link" to="/register">Register</NavLink></li>
+    </ul>
+    </div>
+    <div id="mobile-nav">
+    <ul>
+    <li><NavLink className="link" to="/">Home</NavLink></li>
+    <li><NavLink className="link" to="/login">Login</NavLink></li>
+    <li><NavLink className="link" to="/register">Register</NavLink></li>
+    </ul>
+    </div>
     </nav>
   )
 }

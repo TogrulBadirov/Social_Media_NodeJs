@@ -1,9 +1,46 @@
-nav{
-    max-width: 33%;
+nav {
     background-color: red;
     height: 100vh;
     padding: 10px;
-    .link{
+    background-color: #1c1c1c;
+    #desktop-nav {
+        h3{
+            font-weight: 800;
+            font-size: 25px;
+            color: #d1ee51;
+        }
+        ul{
+            .link{
+                display: inline-block;
+                padding: 10px 50px;
+                
+            }
+            .link.active{
+                color: #d1ee51;
+            }
+        }
+    }
+
+    #mobile-nav {
+        display: none;
+        border-top: 1px solid #000;
+        justify-content: center;
+        ul{
+            display: flex;
+        text-align: center;
+
+            .link{
+                display: inline-block;
+                
+            }
+            .link.active{
+                color: #d1ee51;
+            }
+        }
+    }
+
+    // position: fixed;
+    .link {
         color: #fff;
         text-decoration: none;
         padding: 10px;
@@ -12,13 +49,20 @@ nav{
 
 @media (max-width: 768px) {
 
-    nav{
-        background-color: red;
+    nav {
         max-width: 100%;
         width: 100vh;
         height: max-content;
         text-align: center;
         position: fixed;
         bottom: 0;
+
+        #desktop-nav {
+            display: none;
+        }
+
+        #mobile-nav {
+            display: flex;
+        }
     }
-  }
+}

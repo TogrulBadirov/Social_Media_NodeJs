@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import NoPage from './pages/NoPage';
 import Register from './pages/Register';
-
+import "bootstrap//dist/css/bootstrap.min.css"
 function App() {
 
   return (

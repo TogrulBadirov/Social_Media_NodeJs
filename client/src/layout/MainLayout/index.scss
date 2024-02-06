@@ -1,11 +1,13 @@
-.content-container{
+.main-container{
     display: flex;
     flex-direction: row;
 }
-
+.outlet-container{
+    width: 100%;
+}
 @media (max-width: 768px) {
 
-    .content-container{
+    .main-container{
         order: 1;
         flex-direction: column;
     }

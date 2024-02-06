@@ -9,9 +9,11 @@ const MainLayout = () => {
       <div className="main-container">
         <div className="content-container">
           <Navbar />
-          <Outlet />
         </div>
-        <Footer/>
+        <div className="outlet-container">
+        <Outlet />
+        </div>
+          
       </div>
     </>
   );
