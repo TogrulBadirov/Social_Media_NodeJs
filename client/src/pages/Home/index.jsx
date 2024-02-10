@@ -1,4 +1,5 @@
 
+import Friends from "../../components/HomePageComponents/Friends"
 import Posts from "../../components/HomePageComponents/Posts"
 import "./index.scss"
 
@@ -7,9 +8,7 @@ const Home = () => {
     <div className="home">
       <div className="home-page-elems">
       <Posts/>
-      <div className="friends">
-    friend
-      </div>
+      <Friends/>
       <div className="logo">
       <h3>MY LOGO</h3>
       </div>

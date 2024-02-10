@@ -1,0 +1,11 @@
+#EmailVerification{
+    height: 100vh;
+    overflow: hidden;
+    color: #fff;
+    .container{
+    width: 100%;
+        .error{
+            color: #ff0000;
+        }
+    }
+}

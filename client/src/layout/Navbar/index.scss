@@ -3,7 +3,11 @@ nav {
     height: 100vh;
     padding: 10px;
     background-color: #1c1c1c;
+    border-right: 2px solid #000;
+    position: sticky;
+        top: 0px;
     #desktop-nav {
+        
         h3{
             font-weight: 800;
             font-size: 25px;
@@ -55,6 +59,7 @@ nav {
         height: max-content;
         text-align: center;
         position: fixed;
+        top: initial;
         bottom: 0;
 
         #desktop-nav {

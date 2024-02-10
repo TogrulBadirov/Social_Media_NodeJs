@@ -2,6 +2,8 @@ import User from "../models/user.js";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
 
+const FRONTEND_URL = process.env.FRONTEND_URL
+
 const transport = nodemailer.createTransport({
   service: "yandex",
   auth: {
@@ -23,7 +25,7 @@ export const createUser = async (req, res) => {
         to: user.email,
         subject: "Password Reset",
         text: "Click the link below to verify your email.",
-        html:`<a href="http://localhost:6978/user/verify/${verificationToken}">Verify Email</a>`
+        html:`<a href="${FRONTEND_URL}/verify/${verificationToken}">Verify Email</a>`
       };
       
     transport.sendMail(mailOptions, (err, info) => {
@@ -35,10 +37,10 @@ export const createUser = async (req, res) => {
       }
     });
 
-    res.status(201).json("User Successfully Registered!");
+    res.status(201).send("User Successfully Registered!");
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error });
   }
 };
 
@@ -97,30 +99,36 @@ export const deleteUser = async (req, res) => {
 };
 
 // Controller function for verifying the token
-  export const verifyToken = async (req, res) => {
-    const token = req.params.token;
-  
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded._id)
-    //   const user = await User.findByIdAndUpdate(decoded._id, { verified: true,verificationToken: " " }, { new: true });
-  
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-      
-      user.verified = true
-      user.verificationToken = " "
-      await user.save()
+export const verifyToken = async (req, res) => {
+  const token = req.params.token;
 
-      res.status(200).json({ message: 'Email verification successful'});
-    } catch (error) {
-      if (error.name === 'TokenExpiredError') {
-        return res.status(400).json({ error: 'Token has expired. Please request a new verification link.' });
-      }
-  
-      console.error(error);
-      res.status(400).json({ error: 'Invalid token' });
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded._id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
-  };
+
+    // Check if the user is already verified
+    if (user.verified) {
+      return res.status(400).json({ error: 'User is already verified' });
+    }
+
+    // Update user verification status
+    user.verified = true;
+    user.verificationToken = ""; // Clear verification token
+    await user.save();
+
+    res.status(200).json({ message: 'Email verification successful' });
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      return res.status(400).json({ error: 'Token has expired. Please request a new verification link.' });
+    }
+
+    console.error(error);
+    res.status(400).json({ error: 'Invalid token' });
+  }
+};
+
   

@@ -1,7 +1,9 @@
-
+import "./index.scss"
 const Login = () => {
   return (
-    <div>Login</div>
+    <section id="login">
+      Login
+      </section>
   )
 }
 
