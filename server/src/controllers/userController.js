@@ -1,8 +1,13 @@
 import User from "../models/user.js";
 import nodemailer from "nodemailer";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
+import sharp from "sharp";
+import Post from "../models/post.js";
+import { uploadFile } from "../helpers/s3.js";
 
-const FRONTEND_URL = process.env.FRONTEND_URL
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const transport = nodemailer.createTransport({
   service: "yandex",
@@ -11,6 +16,9 @@ const transport = nodemailer.createTransport({
     pass: process.env.PASS,
   },
 });
+
+const generateFileName = (bytes = 32) =>
+  crypto.randomBytes(bytes).toString("hex");
 
 //Create User
 export const createUser = async (req, res) => {
@@ -21,13 +29,13 @@ export const createUser = async (req, res) => {
     const savedUser = await user.save();
 
     const mailOptions = {
-        from: process.env.EMAIL,
-        to: user.email,
-        subject: "Password Reset",
-        text: "Click the link below to verify your email.",
-        html:`<a href="${FRONTEND_URL}/verify/${verificationToken}">Verify Email</a>`
-      };
-      
+      from: process.env.EMAIL,
+      to: user.email,
+      subject: "Password Reset",
+      text: "Click the link below to verify your email.",
+      html: `<a href="${FRONTEND_URL}/verify/${verificationToken}">Verify Email</a>`,
+    };
+
     transport.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.log(err.message);
@@ -37,7 +45,11 @@ export const createUser = async (req, res) => {
       }
     });
 
-    res.status(201).send("User Successfully Registered!");
+    res
+      .status(201)
+      .send(
+        "User Successfully Registered! Verify Email Send. Please Check Your Email."
+      );
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: error });
@@ -101,34 +113,116 @@ export const deleteUser = async (req, res) => {
 // Controller function for verifying the token
 export const verifyToken = async (req, res) => {
   const token = req.params.token;
-
+  console.log(typeof token);
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded._id);
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Check if the user is already verified
     if (user.verified) {
-      return res.status(400).json({ error: 'User is already verified' });
+      return res.status(400).json({ error: "User is already verified" });
     }
-
     // Update user verification status
     user.verified = true;
-    user.verificationToken = ""; // Clear verification token
+    user.verificationToken = " "; // Clear verification token
+    console.log(user);
     await user.save();
 
-    res.status(200).json({ message: 'Email verification successful' });
+    res.status(200).json({ message: "Email verification successful" });
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      return res.status(400).json({ error: 'Token has expired. Please request a new verification link.' });
+    if (error.name === "TokenExpiredError") {
+      return res.status(400).json({
+        error: "Token has expired. Please request a new verification link.",
+      });
     }
 
     console.error(error);
-    res.status(400).json({ error: 'Invalid token' });
+    res.status(400).json({ error: "Invalid token" });
   }
 };
 
-  
+// Login endpoint handler
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Find user by email
+    const user = await User.findOne({ email });
+
+    // If user doesn't exist or password is incorrect, return error
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    // If user is not verified, return error
+    if (!user.verified) {
+      return res.status(401).json({ error: "User is not verified" });
+    }
+
+    // Generate JWT token
+    const token = user.generateToken();
+
+    // Return token and user details
+    res.status(200).json({
+      token,
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        fullName: user.fullName,
+        role: user.role,
+      },
+      message: "Login Successful!",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const createPost = async (req, res) => {
+  try {
+    const file = req.file;
+    const caption = req.body.caption;
+    const token = req.body.token;
+    console.log(process.env.AWS_BUCKET_NAME);
+    // Check if token is provided
+    if (!token) {
+      return res.status(400).send("Token is missing");
+    }
+    // Verify the JWT token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    if (!decoded) {
+      return res.status(401).send("Invalid token");
+    }
+    
+    const imageName = generateFileName();
+    
+    const fileBuffer = await sharp(file.buffer)
+    .resize({ height: 1080, width: 1080, fit: "contain" })
+    .toBuffer();
+    
+    await uploadFile(fileBuffer, imageName, file.mimetype);
+    
+    const post = new Post({
+      user: decoded._id,
+      imageName,
+      caption,
+    });
+
+    await post.save();
+
+    res.status(201).send(post);
+  } catch (error) {
+    console.error("Error creating post:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
+

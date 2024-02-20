@@ -1,0 +1,72 @@
+.scrollbar-container {
+    background-color: #1c1c1c;
+
+}
+
+.cs-sidebar {
+    border-color: #000 !important;
+}
+
+.cs-main-container {
+    border: none;
+}
+
+.cs-conversation {
+    background-color: #1c1c1c;
+    transition: 150ms;
+    &:hover{
+        background-color: #2b2b2b;
+    }
+    &:active{
+        background-color: #4e4e4e !important;
+    }
+}
+
+.cs-conversation__content {
+    .cs-conversation__name {
+        color: #fff;
+    }
+
+    .cs-conversation__info {
+        color: #b4b4b4;
+    }
+}
+
+.cs-conversation-header {
+    background-color: #1c1c1c;
+    border-color: #000;
+}
+
+.cs-conversation-header__content {
+    .cs-conversation-header__user-name {
+        color: #fff;
+        background-color: #1c1c1c;
+    }
+
+    .cs-conversation-header__info {
+        color: #b4b4b4;
+        background-color: #1c1c1c;
+    }
+}
+
+.cs-message-separator{
+    background-color: #1c1c1c;
+}
+
+.cs-message-input{
+    border-top-color: #000 !important;
+    background-color: #1c1c1c !important;
+    .cs-message-input__tools{
+        background-color: #1c1c1c;
+    }
+    .cs-message-input__content-editor-wrapper{
+        background-color: #2b2b2b;
+    }
+    .cs-message-input__content-editor{
+        background-color: #2b2b2b;
+        color: #fff;
+        &::before{
+            color: #fff !important;
+        }
+    }
+}

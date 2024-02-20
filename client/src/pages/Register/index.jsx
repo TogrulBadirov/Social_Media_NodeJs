@@ -73,7 +73,7 @@ const Register = () => {
         >
           <div className="register-form">
             <Form>
-              <h1>Register Form</h1>
+              <h1>Sign Up Form</h1>
               {/* <label htmlFor="fullName">Full Name</label>  */}
               <Field
                 placeholder="Full Name"

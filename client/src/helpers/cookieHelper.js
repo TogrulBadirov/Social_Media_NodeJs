@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 const setCookie = (res, name, value, options = {}) => {
     // Set secure attribute only in production when using HTTPS
     const isSecure = process.env.NODE_ENV === 'production';

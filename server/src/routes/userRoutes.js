@@ -1,5 +1,6 @@
 import express from "express";
-import { createUser, deleteUser, getAllUser, getUserById, updateUser, verifyToken } from "../controllers/userController.js";
+import { createPost, createUser, deleteUser, getAllUser, getUserById, login, updateUser, verifyToken } from "../controllers/userController.js";
+import { upload } from "../middleware/multer.js";
 const router = express.Router();
 
 //Get All User
@@ -11,6 +12,9 @@ router.get("/:userId",getUserById)
 //Create User
 router.post("/",createUser)
 
+//Login User
+router.post("/login",login)
+
 //Update User
 router.put("/:userId",updateUser)
 
@@ -19,5 +23,10 @@ router.delete("/:userId",deleteUser)
 
 // Route for verifying the token
 router.get('/verify/:token', verifyToken);
+
+//Create Post
+router.post('/posts', upload.single('image'), createPost)
+
+
 
 export default router;

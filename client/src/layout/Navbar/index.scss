@@ -7,13 +7,18 @@ nav {
     position: sticky;
         top: 0px;
     #desktop-nav {
-        
+        height: 100%;
+        display: grid;
+        .logo-navigations{
+            
+        }
         h3{
             font-weight: 800;
             font-size: 25px;
             color: #d1ee51;
         }
         ul{
+            
             .link{
                 display: inline-block;
                 padding: 10px 50px;
@@ -21,6 +26,38 @@ nav {
             }
             .link.active{
                 color: #d1ee51;
+            }
+        }
+        .profile{
+            align-self: end;
+            height: max-content;
+            display: grid;
+            .profile-image{
+                border-bottom: 1px solid #000;
+                padding-bottom: 10px;
+                margin: 10px 0;
+                justify-self: center;
+                display: flex;
+                color: #fff;
+                align-items: center;
+                justify-content: center;
+                .profile-name{
+                    padding: 0;
+                    margin: 0;
+                    margin-left: 10px;
+                }
+                .username{
+                    padding: 0;
+                    margin: 0;
+                    margin-left: 10px;
+                    font-size: 14px;
+                    color: #707070;
+                }
+            }
+            .logOut{
+                align-self: end;
+                color: #d1ee51;
+                border: #d1ee51;
             }
         }
     }
@@ -58,9 +95,10 @@ nav {
         width: 100vh;
         height: max-content;
         text-align: center;
-        position: fixed;
-        top: initial;
-        bottom: 0;
+        // position: fixed;
+        // top: initial;
+        // left: 0;
+        // bottom: 0;
 
         #desktop-nav {
             display: none;

@@ -70,6 +70,24 @@ userSchema.methods.generateVerificationToken = function () {
   return token;
 };
 
+userSchema.methods.generateToken = function () {
+  const user = this;
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "12h", 
+    }
+  );
+  return token;
+};
+
 const User = mongoose.model("User", userSchema);
 
 export default User;

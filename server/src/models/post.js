@@ -6,7 +6,17 @@ const postSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  content: {
+  imageName: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+  },
+  isAuthor: {
+    type: String,
+  },
+  caption: {
     type: String,
     required: true,
   },
@@ -17,6 +27,8 @@ const postSchema = new mongoose.Schema({
     },
   ],
 }, { timestamps: true });
+
+
 
 const Post = mongoose.model('Post', postSchema);
 
