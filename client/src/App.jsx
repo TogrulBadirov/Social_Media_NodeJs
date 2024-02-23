@@ -12,6 +12,8 @@ import UserProfile from "./pages/UserProfile";
 import UserChat from "./pages/UserChat";
 import UserChatV2 from "./pages/UserChatV2";
 import NewPost from "./pages/NewPost";
+import Games from "./pages/Games";
+// import VideoChat from "./pages/VideoChatc";
 function App() {
 
   return (
@@ -24,10 +26,11 @@ function App() {
           <Route path="/login"  element={<Login />} />
           <Route path="/verify/:token"  element={<EmailVerification />} />
           <Route  element={<PrivateRoute/>}>
-              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/profile/:id" element={<UserProfile />} />
               <Route path="/chat" element={<UserChat />} />
               <Route path="/chatV2" element={<UserChatV2 />} />
               <Route path="/newPost" element={<NewPost />} />
+              <Route path="/Games" element={<Games />} />
             </Route>
           <Route path="*" element={<NoPage />} />
         </Route>

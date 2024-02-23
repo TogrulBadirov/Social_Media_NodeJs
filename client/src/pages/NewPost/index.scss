@@ -1,11 +1,8 @@
-#Login{
-    background-color: #1c1c1c;
-    min-height: 91vh;
-
+#createPost{
     .container {
         color: #e0e1da;
         display: grid;
-        height: 91vh;
+        height: 89vh;
         width: 100%;
         align-items: center;
         position: relative;
@@ -16,7 +13,7 @@
             width: 100%;
         }
 
-        .register-form {
+        .post-form {
             max-width: 600px;
             position: relative;
             left: 50%;
@@ -32,6 +29,7 @@
             margin: 10px 0;
             border-radius: 5px;
             width: 100%;
+            color: #464646;
         }
 
         .error {
@@ -41,7 +39,7 @@
         .status{
             color: #00ff00;
         }
-        .register-btn {
+        .submit-btn {
             background-color: #d1ee51;
             color: #464646;
             border: 1px solid #000;

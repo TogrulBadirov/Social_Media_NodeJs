@@ -1,12 +1,13 @@
 nav {
     background-color: red;
     height: 100vh;
-    padding: 10px;
     background-color: #1c1c1c;
     border-right: 2px solid #000;
     position: sticky;
         top: 0px;
     #desktop-nav {
+    padding: 10px;
+
         height: 100%;
         display: grid;
         .logo-navigations{
@@ -22,7 +23,12 @@ nav {
             .link{
                 display: inline-block;
                 padding: 10px 50px;
-                
+                display: flex;
+                align-items: center;
+                svg{
+                    margin-right: 10px;
+                    font-size: 22px;
+                }
             }
             .link.active{
                 color: #d1ee51;
@@ -63,14 +69,27 @@ nav {
     }
 
     #mobile-nav {
+        padding: 10px;
+        background-color: #1c1c1c;;
+        z-index: 10;
         display: none;
         border-top: 1px solid #000;
         justify-content: center;
         ul{
             display: flex;
         text-align: center;
-
+        .logOut{
+            color: #d1ee51;
+            border: #d1ee51;
+        }
+            li{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 26px;
+            }
             .link{
+                
                 display: inline-block;
                 
             }

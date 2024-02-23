@@ -1,43 +1,81 @@
-import { useContext, useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../../context/UserContext'
-import backendURL from '../../config'
+import { useContext, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import backendURL from "../../config";
+import "./index.scss";
 
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-export default function NewPost() {  
-
-  const [file, setFile] = useState()
-  const [caption, setCaption] = useState("")
-  const { userToken, setUserToken, user } = useContext(UserContext);
-  const navigate = useNavigate()
-
-  const submit = async event => {
-    event.preventDefault()
-
-    const formData = new FormData();
-    formData.append("image", file)
-    formData.append("caption", caption)
-    formData.append("token", userToken)
-    await axios.post(`${backendURL}/user/posts`, formData, { headers: {'Content-Type': 'multipart/form-data'}})
-
-    navigate("/")
-  }
-
-  const fileSelected = event => {
-    const file = event.target.files[0]
-		setFile(file)
-	}
-
+export default function NewPost() {
+  const { userToken } = useContext(UserContext);
+  const [file, setFile] = useState();
+  const navigate = useNavigate();
+  const fileSelected = (event) => {
+    const file = event.target.files[0];
+    setFile(file);
+  };
   return (
-    <div className="flex flex-col items-center justify-center">
+    <section id="createPost">
+      <div className="container">
+        <Formik
+          initialValues={{ image: "", caption: "" }}
+          validationSchema={Yup.object({
+            image: Yup.string(),
+            caption: Yup.string() 
+              .max(20, "Must be 20 characters or less")
+              .required("Required"),
+          })}
+          onSubmit={async (values, { setSubmitting }) => {
+            const formData = new FormData();
+            formData.append("image", file);
+            formData.append("caption", values.caption);
+            formData.append("token", userToken);
+            await axios.post(`${backendURL}/user/posts`, formData, {
+              headers: { "Content-Type": "multipart/form-data" },
+            });
+            navigate("/");
+            setSubmitting(false);
+          }}
+        >
+          <div className="post-form">
+            <Form>
+              <label htmlFor="image">Image</label>
+              <input  onChange={fileSelected}
+            type="file"
+            accept="image/*"
+            className="input"
+            />
+              {/* <Field
+            onChange={fileSelected}
+            type="file"
+            accept="image/*"
+            name="image"
+            className="input"
+          /> */}
+              <div className="error">
+                <ErrorMessage name="image" />
+              </div>
 
-        <form onSubmit={submit} style={{width:650}} className="flex flex-col space-y-5 px-5 py-14">
-          <input onChange={fileSelected} type="file" accept="image/*"></input>
-          <input value={caption} onChange={e => setCaption(e.target.value)} type="text" placeholder='Caption'></input>
-          <button type="submit">Submit</button>
-        </form>
+              <label htmlFor="caption">Caption</label>
+              <Field
+                type="text"
+                placeholder="Caption"
+                name="caption"
+                className="input"
+              />
+              <div className="error">
+                <ErrorMessage name="caption" />
+              </div>
 
-    </div>
-  )
+              <button className="submit-btn" type="submit">
+                Submit
+              </button>
+            </Form>
+          </div>
+        </Formik>
+      </div>
+    </section>
+  );
 }

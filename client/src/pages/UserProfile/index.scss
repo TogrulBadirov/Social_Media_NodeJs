@@ -1,5 +1,24 @@
 #UserProfile{
+min-height: 89vh;
     .container{
         color: #fff;
+        z-index: -1;
+        .MuiImageList-root{
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    #UserProfile{
+
+        .container{
+            color: #fff;
+            .card{
+                z-index: 0;
+                max-height: 80vh;
+                overflow-y: scroll;
+            }
+        }
     }
 }

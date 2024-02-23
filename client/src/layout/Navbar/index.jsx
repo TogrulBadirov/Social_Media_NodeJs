@@ -8,6 +8,14 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Avatar from "@mui/material/Avatar";
+import { MdOutlineHome } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa6";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
+import { FiPlusCircle } from "react-icons/fi";
+import { FiVideo } from "react-icons/fi";
+import { PiGameControllerLight } from "react-icons/pi";
+import { IoIosLogIn } from "react-icons/io";
+import { LuUserPlus2 } from "react-icons/lu";
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: '#44b700',
@@ -46,35 +54,29 @@ const Navbar = () => {
     <nav>
       <div id="desktop-nav">
         <div className="logo-navigations">
-          <h3>MY LOGO</h3>
+          <h3>SocialSphere</h3>
           <ul>
             <li>
               <NavLink className="link" to="/">
-                Home
+              <MdOutlineHome /> Home
               </NavLink>
             </li>
             {userToken ? (
               <>
                 <li>
-                  <NavLink className="link" to="/profile">
-                    Profile
+                  <NavLink className="link" to={`/profile/${user && user._id}`}>
+                  <FaRegUser /> Profile
                   </NavLink>
                   
-                </li>
-                <li>
-                <NavLink className="link" to="/chat">
-                    Chat
-                  </NavLink>
-                  
-                </li>
-                <li>
-                <NavLink className="link" to="/chatV2">
-                    ChatV2
-                  </NavLink>
                 </li>
                 <li>
                 <NavLink className="link" to="/newPost">
-                newPost
+                <FiPlusCircle /> New Post
+                  </NavLink>
+                </li>
+                <li>
+                <NavLink className="link" to="/Games">
+                <PiGameControllerLight /> Games
                   </NavLink>
                 </li>
               </>
@@ -82,12 +84,12 @@ const Navbar = () => {
               <>
                 <li>
                   <NavLink className="link" to="/login">
-                    Login
+                  <FaRegUser /> Login
                   </NavLink>
                 </li>
                 <li>
                   <NavLink className="link" to="/register">
-                    Register
+                  <LuUserPlus2 /> Register
                   </NavLink>
                 </li>
               </>
@@ -99,7 +101,6 @@ const Navbar = () => {
 <>
 <div className="profile">
         <div className="profile-image">
-        {/* <Avatar alt="Remy Sharp" src="https://cdn.pixabay.com/photo/2023/09/19/12/59/eagle-8262555_1280.jpg" /> */}
         <StyledBadge
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -136,23 +137,55 @@ const Navbar = () => {
         </div></>}
       </div>
       <div id="mobile-nav">
-        <ul>
-          <li>
-            <NavLink className="link" to="/">
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className="link" to="/login">
-              Login
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className="link" to="/register">
-              Register
-            </NavLink>
-          </li>
-        </ul>
+      <ul>
+            <li>
+              <NavLink className="link" to="/">
+              <MdOutlineHome /> 
+              </NavLink>
+            </li>
+            {userToken ? (
+              <>
+                <li>
+                <NavLink className="link" to={`/profile/${user && user._id}`}>
+                  <FaRegUser /> 
+                  </NavLink>
+                  
+                </li>
+                <li>
+                <NavLink className="link" to="/newPost">
+                <FiPlusCircle /> 
+                  </NavLink>
+                </li>
+                <li>
+                <NavLink className="link" to="/Games">
+                <PiGameControllerLight /> 
+                  </NavLink>
+                </li>
+                <li>
+                <Button
+          onClick={()=>setUserToken(null)}
+            className="logOut"
+            variant="outlined"
+            startIcon={<LogoutIcon />}
+          >
+          </Button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <NavLink className="link" to="/login">
+                  <FaRegUser /> Login
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink className="link" to="/register">
+                  <LuUserPlus2 /> Register
+                  </NavLink>
+                </li>
+              </>
+            )}
+          </ul>
       </div>
     </nav>
   );

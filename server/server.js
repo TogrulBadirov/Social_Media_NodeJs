@@ -1,7 +1,17 @@
 import app from "./app.js";
-import io from "./src/config/socketConfig.js";
+import { Server } from "socket.io";
+import http from "http";
+const server = http.createServer(app)
+
+const io = new Server(server, {
+    cors: {
+        origin: process.env.FRONTEND_URL,
+        methods: ["GET", "POST"]
+    }
+});
 
 const port = process.env.PORT;
+
 
 io.on("connection", (socket) => {
 	socket.emit("me", socket.id)
@@ -20,7 +30,7 @@ io.on("connection", (socket) => {
 })
 
 
-const server = app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
   

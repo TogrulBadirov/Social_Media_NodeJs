@@ -65,12 +65,15 @@ const UserChatV2 = () => {
     setChatContainerStyle,
   ]);
   return (
-    <div
-      style={{
-        height: "92vh",
-        position: "relative",
-      }}
-    >
+<div
+  style={{
+    height: "91vh",
+    position: "relative",
+    "@media (max-width: 768px)": {
+      height: "100vh",
+    },
+  }}
+>
       <MainContainer responsive>
         <Sidebar position="left" scrollable={false} style={sidebarStyle}>
           <ConversationList>

@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema(
         ref: "Post",
       },
     ],
+    savedPosts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
     verified: {
       type: Boolean,
       default: false,
@@ -81,9 +87,7 @@ userSchema.methods.generateToken = function () {
       role: user.role,
     },
     process.env.JWT_SECRET,
-    {
-      expiresIn: "12h", 
-    }
+
   );
   return token;
 };

@@ -184,31 +184,34 @@ export const login = async (req, res) => {
   }
 };
 
+
 export const createPost = async (req, res) => {
   try {
     const file = req.file;
     const caption = req.body.caption;
     const token = req.body.token;
-    console.log(process.env.AWS_BUCKET_NAME);
+
     // Check if token is provided
     if (!token) {
       return res.status(400).send("Token is missing");
     }
+
     // Verify the JWT token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
+
     if (!decoded) {
       return res.status(401).send("Invalid token");
     }
-    
+
     const imageName = generateFileName();
-    
+
     const fileBuffer = await sharp(file.buffer)
-    .resize({ height: 1080, width: 1080, fit: "contain" })
-    .toBuffer();
-    
+      .resize({ height: 1080, width: 1080, fit: "contain" })
+      .toBuffer();
+
     await uploadFile(fileBuffer, imageName, file.mimetype);
-    
+
+    // Create the post
     const post = new Post({
       user: decoded._id,
       imageName,
@@ -217,12 +220,16 @@ export const createPost = async (req, res) => {
 
     await post.save();
 
+    // Update the user's posts array
+    await User.findByIdAndUpdate(decoded._id, { $push: { posts: post._id } });
+
     res.status(201).send(post);
   } catch (error) {
     console.error("Error creating post:", error);
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 
 
