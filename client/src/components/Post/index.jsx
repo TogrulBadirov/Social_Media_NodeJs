@@ -13,6 +13,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import { FaRegComment, FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { IoChatbubbleOutline } from "react-icons/io5";
+import { NavLink } from "react-router-dom";
 
 const Post = ({item, setPosts, posts}) => {
     const { userToken, setUserToken, user } = useContext(UserContext);
@@ -92,7 +93,9 @@ const Post = ({item, setPosts, posts}) => {
             </div>
           </div>
           <div className="username-date">
+          <NavLink className="link" to={`/profile/${ item.user._id}`}>
             <h4 className="profile-name">{item.user.fullName}</h4>
+                  </NavLink>
             <p className="post-upload-date">{item.timeAgo}</p>
           </div>
         </div>

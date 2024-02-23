@@ -35,7 +35,7 @@ export const getAllPosts = async (req, res) => {
       post.isAuthor = post.user._id.equals(userId);
 
       // Find the user by ID to check if the post is saved by the user
-      const user = await User.findById(userId);
+      const user = await User.findById(userId).populate('posts').populate('savedPosts');
       if (!user) {
         throw new Error('User not found');
       }
@@ -59,39 +59,55 @@ export const getAllPosts = async (req, res) => {
 
 
 export const deletePost = async (req, res) => {
-    try {
+  try {
       // Get the user ID from the request token
       const userId = req.user._id;
-      
+
       // Get the post ID from the request parameters
       const postId = req.params.id;
-  
+
       // Find the post by ID
       const post = await Post.findById(postId);
-  
+
       // Check if the post exists
       if (!post) {
-        return res.status(404).json({ error: "Post not found" });
+          return res.status(404).json({ error: "Post not found" });
       }
-  
+
       // Check if the post belongs to the user
       if (post.user.toString() !== userId) {
-        return res.status(401).json({ error: "Unauthorized" });
+          return res.status(401).json({ error: "Unauthorized" });
       }
-  
+
       // Delete the post image from storage
       await deleteFile(post.imageName);
-  
+
       // Delete the post from the database
       await Post.findByIdAndDelete(postId);
-  
+
+      // Find the user by ID
+      const user = await User.findById(userId);
+
+      // Check if the user exists
+      if (!user) {
+          return res.status(404).json({ error: "User not found" });
+      }
+
+      // Remove the deleted post from the user's posts array
+      user.posts = user.posts.filter(p => p.toString() !== postId);
+
+      // Save the user document with the updated posts array
+      await user.save();
+
       // Send the deleted post as the response
       res.json({ message: "Post deleted successfully", deletedPost: post });
-    } catch (error) {
+  } catch (error) {
       console.error("Error deleting post:", error);
       res.status(500).json({ error: "Internal Server Error" });
-    }
-  };
+  }
+};
+
+
   
 
 

@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import sharp from "sharp";
 import Post from "../models/post.js";
-import { uploadFile } from "../helpers/s3.js";
+import { getObjectSignedUrl, uploadFile } from "../helpers/s3.js";
 
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
@@ -71,16 +71,48 @@ export const getAllUser = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    // Find the user by ID and populate the 'posts' and 'savedPosts' arrays
+    const user = await User.findById(req.params.userId)
+      .populate({
+        path: 'posts',
+        options: { sort: { createdAt: -1 } } // Sort posts by createdAt field in descending order
+      })
+      .populate('savedPosts');
+
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    // Add imageUrl to each post in the 'posts' array
+    for (let post of user.posts) {
+      post.imageUrl = await getObjectSignedUrl(post.imageName);
+
+      // Check if the current user is the author of the post
+
+      // Check if the post is saved by the user
+      post.isSaved = user.savedPosts.includes(post._id);
+
+      
+    }
+    for (let post of user.savedPosts) {
+      post.imageUrl = await getObjectSignedUrl(post.imageName);
+
+      // Check if the current user is the author of the post
+
+      // Check if the post is saved by the user
+      post.isSaved = user.savedPosts.includes(post._id);
+
+      
+    }
+
+    // Send the user data with populated 'posts' and 'savedPosts' arrays
     res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error retrieving user" });
   }
 };
+
 
 export const updateUser = async (req, res) => {
   try {
