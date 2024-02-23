@@ -13,6 +13,7 @@ import UserChat from "./pages/UserChat";
 import UserChatV2 from "./pages/UserChatV2";
 import NewPost from "./pages/NewPost";
 import Games from "./pages/Games";
+import Admin from "./pages/Admin";
 // import VideoChat from "./pages/VideoChatc";
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
               <Route path="/chatV2" element={<UserChatV2 />} />
               <Route path="/newPost" element={<NewPost />} />
               <Route path="/Games" element={<Games />} />
+              <Route path="/Admin" element={<Admin />} />
             </Route>
           <Route path="*" element={<NoPage />} />
         </Route>
