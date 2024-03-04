@@ -35,7 +35,7 @@ const EmailVerification = () => {
     <section id="EmailVerification">
       <div className="container">
       {loading && "Loading..."} {/* Show loading message if loading */}
-        {!loading && status && <p>{status}</p>} {/* Show status message if not loading and status exists */}
+        {!loading && status && <p className="success">{status}</p>} {/* Show status message if not loading and status exists */}
         {!loading && error && <p className="error">{error}</p>} {/* Show error message if not loading and error exists */}
       </div>
     </section>

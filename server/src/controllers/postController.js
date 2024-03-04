@@ -6,9 +6,20 @@ import crypto from "crypto";
 import sharp from "sharp";
 import Post from "../models/post.js";
 import moment from "moment"
+import axios from "axios"
 import { uploadFile,getObjectSignedUrl, deleteFile } from "../helpers/s3.js";
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
+const options = {
+  method: 'POST',
+  url: 'https://chatgpt-42.p.rapidapi.com/texttoimagetv',
+  headers: {
+    'content-type': 'application/json',
+    'X-RapidAPI-Key': 'd114d47eecmshd63c22ac34861dfp1a53a5jsnd736eb6861b0',
+    'X-RapidAPI-Host': 'chatgpt-42.p.rapidapi.com'
+  },
+  data: {}
+};
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -173,3 +184,17 @@ export const deletePost = async (req, res) => {
       throw new Error('Error toggling saved post: ' + error.message);
     }
   };
+
+
+export const generateImage = async (req, res) => {
+    try {
+      const { textPromt } = req.body;
+      options.data.text = textPromt;
+      const response = await axios.request(options);
+      console.log(response.data);
+      res.send(response.data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Internal Server Error");
+    }
+  }

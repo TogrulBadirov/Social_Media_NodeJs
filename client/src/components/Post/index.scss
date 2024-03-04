@@ -5,6 +5,13 @@
     overflow: hidden;
     max-width: 600px;
     margin: 20px 0;
+    .ai-generated{
+        background: linear-gradient(45deg, red,  blue);
+        border-radius: 10px;
+        padding: 0 5px;
+        color: #fff;
+        margin-top: 10px;
+    }
     .delete-btn{
         background-color: #1c1c1c !important;
         color: #1c1c1c;
@@ -25,7 +32,7 @@
         border: 2px solid #d1ee51;
         width: max-content;
         height: max-content;
-        border-radius: 15px;
+        border-radius: 50px;
     }
 
     .profile-image {
@@ -35,7 +42,7 @@
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        border-radius: 15px;
+        border-radius: 50px;
         border: 2px solid #000;
 
         img {

@@ -31,10 +31,23 @@ export const createUser = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: user.email,
-      subject: "Password Reset",
-      text: "Click the link below to verify your email.",
-      html: `<a href="${FRONTEND_URL}/verify/${verificationToken}">Verify Email</a>`,
+      subject: "Verify Your Email Address",
+      text: "Welcome to our platform! To get started, please verify your email address by clicking the button below.",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #007bff;">Welcome to Our Platform!</h2>
+          <p style="font-size: 16px;">To get started, please verify your email address by clicking the button below:</p>
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="${FRONTEND_URL}/verify/${verificationToken}" style="background-color: #007bff; color: #fff; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 18px; display: inline-block;">Verify Email</a>
+          </div>
+          <p style="font-size: 14px; margin-top: 20px;">If you're unable to click the button above, you can also verify your email by copying and pasting the following link into your browser:</p>
+          <p style="font-size: 14px;"><a href="${FRONTEND_URL}/verify/${verificationToken}" style="color: #007bff; text-decoration: none;">${FRONTEND_URL}/verify/${verificationToken}</a></p>
+          <p style="font-size: 14px;">Thank you for joining us!</p>
+          <p style="font-size: 14px;">- The Our Platform Team</p>
+        </div>
+      `,
     };
+    
 
     transport.sendMail(mailOptions, (err, info) => {
       if (err) {
@@ -221,6 +234,7 @@ export const createPost = async (req, res) => {
   try {
     const file = req.file;
     const caption = req.body.caption;
+    const isAiGenerated = req.body.isAiGenerated;
     const token = req.body.token;
 
     // Check if token is provided
@@ -248,6 +262,7 @@ export const createPost = async (req, res) => {
       user: decoded._id,
       imageName,
       caption,
+      isAiGenerated
     });
 
     await post.save();

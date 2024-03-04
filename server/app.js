@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./src/routes/userRoutes.js";
 import postRouter from "./src/routes/postRoutes.js";
+import adminRouter from "./src/routes/adminRoutes.js";
 
 // Initialize Express app
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json()); // Parse JSON data in request body
 // Use the userRouter for routes under the root path "/"
 app.use("/user", userRouter);
 app.use("/posts", postRouter);
+app.use("/admin", adminRouter);
 
 // Database setup
 const ConnectionPass = process.env.CONNECTION_PASS;

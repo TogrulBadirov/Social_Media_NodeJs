@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./index.scss";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -16,6 +16,8 @@ import { FiVideo } from "react-icons/fi";
 import { PiGameControllerLight } from "react-icons/pi";
 import { IoIosLogIn } from "react-icons/io";
 import { LuUserPlus2 } from "react-icons/lu";
+import axios from "axios";
+import backendURL from "../../config";
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: '#44b700',
@@ -48,13 +50,26 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 const Navbar = () => {
   const { userToken, setUserToken, user } = useContext(UserContext);
-  console.log(user);
+  const [logo, setLogo] = useState(null);
   const navigate = useNavigate();
+  const fetchLogo = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/admin/logo`);
+      setLogo(response.data);
+    } catch (error) {
+      console.error('Error fetching logo:', error);
+    }
+  };
+
+  useEffect(() => {
+
+    fetchLogo();
+  }, []);
   return (
     <nav>
       <div id="desktop-nav">
         <div className="logo-navigations">
-          <h3>SocialSphere</h3>
+          <h3>{logo && logo.imageUrl}</h3>
           <ul>
             <li>
               <NavLink className="link" to="/">

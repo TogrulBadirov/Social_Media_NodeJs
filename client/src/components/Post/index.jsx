@@ -87,7 +87,7 @@ const Post = ({item, setPosts, posts}) => {
           <div className="image-border">
             <div className="profile-image">
               <img
-                src="https://images.pexels.com/photos/1310474/pexels-photo-1310474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg"
                 alt=""
               />
             </div>
@@ -96,14 +96,14 @@ const Post = ({item, setPosts, posts}) => {
           <NavLink className="link" to={`/profile/${ item.user._id}`}>
             <h4 className="profile-name">{item.user.fullName}</h4>
                   </NavLink>
-            <p className="post-upload-date">{item.timeAgo}</p>
+            <p className="post-upload-date">{item.timeAgo} {item.isAiGenerated === "true" ? <div className="ai-generated">AI Generated</div>:""}</p>
           </div>
         </div>
         <div className="post-settings">
-          <IconButton onClick={handleClick} className="settings-button">
+          <button onClick={handleClick} className="settings-button">
             {/* <MoreVertIcon /> */}
             ...
-          </IconButton>
+          </button>
         </div>
         <Menu
                     anchorEl={anchorEl}
@@ -137,6 +137,8 @@ const Post = ({item, setPosts, posts}) => {
                   </>
                     }
                     <MenuItem  onClick={handleClose}>
+                    <NavLink className="link" to={`/profile/${ item.user._id}`}>
+
                     <Button
                       sx={{
                         color: "#fff",
@@ -149,6 +151,8 @@ const Post = ({item, setPosts, posts}) => {
                     >
                       About Account
                     </Button>
+                    </NavLink>
+
                   </MenuItem>
                   </Menu>
       </div>
@@ -158,22 +162,22 @@ const Post = ({item, setPosts, posts}) => {
       <div className="post-actions">
         <div className="like-comment">
           <div className="likes">
-            <IconButton onClick={toggleLike} className="action-button like-button">
+            <button onClick={toggleLike} className="action-button like-button">
               {isLiked ? <GoHeartFill className="red-heart" /> : <GoHeart />}
-            </IconButton>
+            </button>
             <p>{likesCount} Likes</p>
           </div>
           <div className="comments">
-            <IconButton className="action-button comment-button">
+            {/* <button className="action-button comment-button">
               <IoChatbubbleOutline />
-            </IconButton>
-            <p>21Comments</p>
+            </button>
+            <p>21Comments</p> */}
           </div>
         </div>
         <div className="share">
-          <IconButton onClick={toggleSave} className="action-button share-button">
+          <button onClick={toggleSave} className="action-button share-button">
             {isSaved ? <FaBookmark /> : <FaRegBookmark />}
-          </IconButton>
+          </button>
         </div>
       </div>
       <div className="post-description">

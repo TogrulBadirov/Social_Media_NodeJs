@@ -19,6 +19,9 @@ const postSchema = new mongoose.Schema({
   isSaved: {
     type: String,
   },
+  isAiGenerated: {
+    type: String,
+  },
   timeAgo: {
     type: String,
   },

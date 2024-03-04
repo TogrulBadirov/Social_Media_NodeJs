@@ -5,5 +5,58 @@
         }
         .MuiDataGrid-footerContainer{
         }
+        .MuiToolbar-root{
+            color: #fff;
+        }
+        color: #e0e1da;
+        display: grid;
+        height: 89vh;
+        width: 100%;
+        align-items: center;
+        position: relative;
+        form {
+            border: 1px solid #000;
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+        }
+
+        .post-form {
+            max-width: 600px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .input {
+            background-color: transparent;
+            border: 1px solid #000;
+            background-color: #e0e1da;
+            font-size: 16px;
+            padding: 5px;
+            margin: 10px 0;
+            border-radius: 5px;
+            width: 300px;
+            color: #464646;
+        }
+
+        .error {
+            color: #ff0000;
+            font-weight: 200;
+        }
+        .status{
+            color: #00ff00;
+        }
+        .submit-btn {
+            background-color: #d1ee51;
+            color: #464646;
+            border: 1px solid #000;
+            padding: 5px 25px;
+            border-radius: 10px;
+            box-shadow: #bcbcbc 0px 0px 5px 0px;
+            font-weight: 700;
+            font-size: 15px;
+            margin: 10px 0;
+        }
     }
 }

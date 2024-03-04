@@ -31,8 +31,9 @@ const Posts = () => {
     <section id="Posts">
       <div className="container">
         <div className="post-filter">
-          <button className="active">Following</button>
-          <button>Popular</button>
+          <button className="active">Popular</button>
+          {/* <button className="active">Following</button> */}
+          {/* <button>Popular</button> */}
         </div>
         <div className="posts">
           {posts &&

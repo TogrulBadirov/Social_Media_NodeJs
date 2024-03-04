@@ -1,7 +1,7 @@
 import express from "express";
 import { createPost, createUser, deleteUser, getAllUser, getUserById, login, updateUser, verifyToken } from "../controllers/userController.js";
 import { upload } from "../middleware/multer.js";
-import { deletePost, getAllPosts, toggleLike, toggleSavedPost } from "../controllers/postController.js";
+import { deletePost, generateImage, getAllPosts, toggleLike, toggleSavedPost } from "../controllers/postController.js";
 import { authenticateUser } from "../auth/authorizeUser.js";
 const router = express.Router();
 
@@ -16,5 +16,8 @@ router.post('/like', authenticateUser, toggleLike)
 
 //Save Post
 router.post('/save', authenticateUser, toggleSavedPost)
+
+//Ai Post
+router.post('/generateImage', authenticateUser, generateImage)
 
 export default router;
